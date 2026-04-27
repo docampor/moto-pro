@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="theme-color" content="#18170F">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Moto Pro">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title id='page-title'>Honda CB 190R</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#F2F1EE;
+  --surface:#FFFFFF;
+  --surface-2:#F8F7F5;
+  --border:#E2DFD9;
+  --border-strong:#C8C4BC;
+  --text:#18170F;
+  --text-2:#3D3C38;
+  --muted:#7A7670;
+  --ok:#1E6B2B;
+  --ok-bg:#E4F4E7;
+  --ok-border:#A8D8B0;
+  --warn:#8A5A00;
+  --warn-bg:#FEF0CC;
+  --warn-border:#F0C84A;
+  --due:#A81515;
+  --due-bg:#FEECEC;
+  --due-border:#F5A8A8;
+  --none-bg:#EDEBE6;
+  --none-border:#D2CFC8;
+  --accent:#18170F;
+  --radius:12px;
+  --radius-sm:8px;
+  --shadow:0 1px 2px rgba(0,0,0,0.05),0 1px 4px rgba(0,0,0,0.04);
+  --shadow-md:0 3px 10px rgba(0,0,0,0.08),0 1px 3px rgba(0,0,0,0.05);
+  --shadow-lg:0 8px 24px rgba(0,0,0,0.10),0 2px 6px rgba(0,0,0,0.06);
+
+  /* banner */
+  --banner-bg:#1A2744;
+  --banner-text:#E8EEF8;
+  --banner-muted:#94A3BF;
+  --banner-border:#253460;
+
+  /* dark mode overrides (applied via .dark class on html) */
+}
+
+@media(prefers-color-scheme:dark){
+  :root{
+    --bg:#111110;
+    --surface:#1C1B19;
+    --surface-2:#242320;
+    --border:#2E2D29;
+    --border-strong:#45443E;
+    --text:#F0EEE8;
+    --text-2:#C4C0B8;
+    --muted:#706E68;
+    --ok:#34A84A;
+    --ok-bg:#0F2916;
+    --ok-border:#1D5225;
+    --warn:#D4900A;
+    --warn-bg:#271D06;
+    --warn-border:#4A3310;
+    --due:#E53535;
+    --due-bg:#270E0E;
+    --due-border:#4A1818;
+    --none-bg:#201F1C;
+    --none-border:#2E2D29;
+    --banner-bg:#0E1526;
+    --banner-text:#C8D8F0;
+    --banner-muted:#6A7A9A;
+    --banner-border:#1A2540;
+  }
+}
+
+body{
+  font-family:'DM Sans',system-ui,sans-serif;
+  background:var(--bg);color:var(--text);
+  min-height:100vh;-webkit-font-smoothing:antialiased;
+}
+.app{max-width:430px;margin:auto;padding-bottom:80px}
+
+/* ── HEADER ── */
+.header{
+  padding:14px 16px 12px;
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:12px;
+  position:sticky;top:0;z-index:10;
+}
+.header-icon{
+  width:44px;height:44px;background:var(--text);border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;flex-shrink:0;cursor:pointer;overflow:hidden;
+  position:relative;transition:opacity 0.15s,transform 0.15s;
+  box-shadow:0 1px 4px rgba(0,0,0,0.18);
+}
+.header-icon:active{transform:scale(0.94)}
+.header-icon img{width:100%;height:100%;object-fit:cover;display:block}
+.header-icon .icon-hint{
+  position:absolute;inset:0;background:rgba(0,0,0,0.55);
+  display:none;align-items:center;justify-content:center;font-size:14px;
+}
+.header-icon:hover .icon-hint{display:flex}
+.header-info{flex:1;min-width:0}
+.header h1{
+  font-size:17px;font-weight:600;letter-spacing:-0.4px;
+  outline:none;border-bottom:1.5px dashed transparent;
+  display:inline-block;min-width:60px;
+  transition:border-color 0.2s;line-height:1.3;color:var(--text);
+}
+.header h1:hover{border-bottom-color:var(--border-strong)}
+.header h1:focus{border-bottom-color:var(--muted)}
+.header-sub{font-size:11px;color:var(--muted);margin-top:1px;letter-spacing:0.1px}
+
+/* ── BANNER ── */
+.banner{
+  background:var(--banner-bg);
+  border-bottom:1px solid var(--banner-border);
+  position:relative;
+}
+.banner-inner{
+  display:flex;align-items:flex-start;
+}
+.banner-icon{
+  padding:12px;
+  background:rgba(255,255,255,0.06);
+  border-right:1px solid var(--banner-border);
+  display:flex;align-items:flex-start;font-size:14px;flex-shrink:0;
+  padding-top:13px;
+}
+.banner-content{
+  flex:1;padding:10px 12px;cursor:pointer;
+}
+.banner-label{
+  font-size:9px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;
+  color:var(--banner-muted);margin-bottom:7px;
+}
+.banner-lines{
+  list-style:none;display:flex;flex-direction:column;gap:5px;
+}
+.banner-lines li{
+  font-size:12.5px;font-weight:500;color:var(--banner-text);
+  display:flex;align-items:baseline;gap:7px;line-height:1.3;
+}
+.banner-lines li::before{
+  content:'·';color:var(--banner-muted);flex-shrink:0;font-size:14px;
+}
+.banner-lines li:empty{display:none}
+.banner-edit{
+  padding:10px 12px;display:flex;align-items:flex-start;
+  border-left:1px solid var(--banner-border);
+  background:none;border-top:none;border-right:none;border-bottom:none;
+  color:var(--banner-muted);font-size:14px;cursor:pointer;flex-shrink:0;
+  transition:color 0.15s;padding-top:12px;
+}
+.banner-edit:hover{color:var(--banner-text)}
+
+/* ── NAV ── */
+.nav{
+  display:flex;background:var(--surface);
+  border-bottom:1px solid var(--border);
+  padding:0 6px;gap:2px;
+  position:sticky;top:70px;z-index:9;
+}
+.nb{
+  flex:1;padding:12px 4px 11px;background:none;border:none;cursor:pointer;
+  font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:500;
+  color:var(--muted);transition:color 0.15s;
+  border-bottom:2.5px solid transparent;margin-bottom:-1px;
+  min-height:44px;
+}
+.nb.active{color:var(--text);border-bottom-color:var(--text);font-weight:600}
+.nb:hover:not(.active){color:var(--text-2)}
+
+.tab{display:none;padding:14px 12px}
+.tab.active{display:block}
+
+/* ── CARDS ── */
+.mcard{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);margin-bottom:10px;
+  box-shadow:var(--shadow);overflow:hidden;transition:box-shadow 0.2s,border-color 0.2s;
+}
+.mcard:hover{box-shadow:var(--shadow-md);border-color:var(--border-strong)}
+
+.mcard-head{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:13px 14px;cursor:pointer;gap:10px;min-height:52px;
+  user-select:none;
+}
+.mcard-name{font-size:14px;font-weight:600;flex:1;min-width:0;color:var(--text);letter-spacing:-0.1px}
+.mcard-meta{
+  font-size:11px;color:var(--muted);padding:0 14px 11px;
+  font-family:'DM Mono',monospace;letter-spacing:-0.1px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  line-height:1.6;
+}
+
+/* ── BADGES ── */
+.badge{
+  font-size:10.5px;font-weight:700;padding:3px 9px;
+  border-radius:20px;letter-spacing:0.2px;flex-shrink:0;
+  border:1px solid transparent;line-height:1.4;
+}
+.b-ok{color:var(--ok);background:var(--ok-bg);border-color:var(--ok-border)}
+.b-warn{color:var(--warn);background:var(--warn-bg);border-color:var(--warn-border)}
+.b-due{color:var(--due);background:var(--due-bg);border-color:var(--due-border)}
+.b-none{color:var(--muted);background:var(--none-bg);border-color:var(--none-border)}
+
+/* ── PROGRESS BAR ── */
+.bar{height:4px;background:var(--border);margin:0 14px 13px;border-radius:2px}
+.bar-fill{height:100%;border-radius:2px;transition:width 0.5s ease}
+.bar-ok{background:var(--ok)}
+.bar-warn{background:var(--warn)}
+.bar-due{background:var(--due)}
+
+/* ── FORMS ── */
+.form{display:none;padding:14px;background:var(--surface-2);border-top:1px solid var(--border)}
+.form.open{display:block}
+
+.form-label{
+  font-size:11px;font-weight:700;color:var(--muted);
+  letter-spacing:0.5px;text-transform:uppercase;
+  margin-bottom:5px;display:block;
+}
+.form-group{margin-bottom:12px}
+
+input,select{
+  width:100%;padding:10px 12px;
+  border:1px solid var(--border);border-radius:var(--radius-sm);
+  font-family:'DM Sans',sans-serif;font-size:14px;
+  background:var(--surface);color:var(--text);
+  transition:border-color 0.15s,box-shadow 0.15s;
+  outline:none;min-height:44px;
+  -webkit-appearance:none;appearance:none;
+}
+input:focus,select:focus{
+  border-color:var(--border-strong);
+  box-shadow:0 0 0 3px rgba(0,0,0,0.06);
+}
+input::placeholder{color:var(--muted)}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237A7670' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:36px}
+
+.form-divider{border:none;border-top:1px solid var(--border);margin:14px 0}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  padding:9px 14px;border-radius:var(--radius-sm);
+  font-family:'DM Sans',sans-serif;
+  font-size:13px;font-weight:600;cursor:pointer;
+  transition:background 0.15s,opacity 0.15s,transform 0.1s;
+  border:1px solid var(--border);background:var(--surface);color:var(--text);
+  min-height:38px;
+}
+.btn:active{transform:scale(0.97)}
+.btn:hover{background:var(--surface-2)}
+.btn-primary{
+  background:var(--text);color:var(--surface);
+  border-color:var(--text);
+}
+.btn-primary:hover{opacity:0.88;background:var(--text)}
+.btn-danger{color:var(--due);border-color:var(--due-border);background:var(--due-bg)}
+.btn-danger:hover{background:var(--due-border)}
+.btn-full{width:100%}
+
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+
+.add-btn{
+  width:100%;padding:12px;
+  border:1.5px dashed var(--border);border-radius:var(--radius);
+  background:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;
+  color:var(--muted);cursor:pointer;transition:all 0.15s;min-height:44px;
+}
+.add-btn:hover{border-color:var(--border-strong);color:var(--text);background:var(--surface)}
+
+/* ── SECTION LABEL ── */
+.section-label{
+  font-size:11px;font-weight:700;letter-spacing:0.6px;
+  text-transform:uppercase;color:var(--muted);
+  margin-bottom:8px;margin-top:4px;
+}
+
+/* ── DASHBOARD ── */
+.dash-km{
+  background:#18170F;color:#FFFFFF;border-radius:var(--radius);
+  padding:18px 20px;margin-bottom:12px;
+  display:flex;align-items:center;gap:8px;
+  box-shadow:var(--shadow-md);
+}
+.dash-km-num{font-size:32px;font-weight:700;font-family:'DM Mono',monospace;letter-spacing:-1.5px;line-height:1}
+.dash-km-unit{font-size:14px;opacity:0.5;font-weight:500;margin-top:4px}
+.dash-km-label{font-size:11px;opacity:0.5;font-weight:500;margin-top:3px;letter-spacing:0.3px}
+
+.dash-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px}
+.stat-card{
+  border-radius:var(--radius);padding:14px 10px;
+  border:1px solid transparent;text-align:center;
+}
+.stat-card.ok{background:var(--ok-bg);border-color:var(--ok-border)}
+.stat-card.warn{background:var(--warn-bg);border-color:var(--warn-border)}
+.stat-card.due{background:var(--due-bg);border-color:var(--due-border)}
+.stat-num{font-size:26px;font-weight:700;font-family:'DM Mono',monospace;line-height:1}
+.stat-lbl{font-size:10px;font-weight:700;letter-spacing:0.4px;text-transform:uppercase;margin-top:4px}
+.stat-card.ok .stat-num,.stat-card.ok .stat-lbl{color:var(--ok)}
+.stat-card.warn .stat-num,.stat-card.warn .stat-lbl{color:var(--warn)}
+.stat-card.due .stat-num,.stat-card.due .stat-lbl{color:var(--due)}
+
+.dash-item{
+  border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:7px;
+  border:1px solid transparent;display:flex;align-items:center;gap:10px;
+}
+.dash-item.due{background:var(--due-bg);border-color:var(--due-border)}
+.dash-item.warn{background:var(--warn-bg);border-color:var(--warn-border)}
+.dash-item.ok{background:var(--ok-bg);border-color:var(--ok-border)}
+.dash-item-name{flex:1;font-size:13px;font-weight:600;min-width:0;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.dash-item-km{font-size:11px;font-family:'DM Mono',monospace;opacity:0.75;white-space:nowrap}
+.dash-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.dash-item.due .dash-dot{background:var(--due)}
+.dash-item.warn .dash-dot{background:var(--warn)}
+.dash-item.ok .dash-dot{background:var(--ok)}
+
+.dash-all-ok{
+  text-align:center;padding:32px;
+  background:var(--ok-bg);border:1px solid var(--ok-border);
+  border-radius:var(--radius);
+}
+.dash-all-ok .icon{font-size:32px;margin-bottom:8px}
+.dash-all-ok p{color:var(--ok);font-weight:700;font-size:14px}
+
+/* ── LOG ── */
+.log-cat-badge{
+  font-size:10px;font-weight:700;letter-spacing:0.3px;
+  padding:3px 8px;border-radius:20px;
+  background:var(--none-bg);border:1px solid var(--none-border);
+  color:var(--muted);white-space:nowrap;flex-shrink:0;
+}
+.log-actions{display:flex;gap:6px;margin-top:10px}
+.log-actions .btn{font-size:12px;padding:6px 12px;min-height:34px}
+
+/* ── REPORT TAB ── */
+.action-btn{
+  display:flex;align-items:center;gap:12px;
+  width:100%;padding:13px 14px;border-radius:var(--radius);
+  border:1px solid var(--border);background:var(--surface);
+  font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;
+  color:var(--text);cursor:pointer;text-align:left;
+  transition:all 0.15s;box-shadow:var(--shadow);
+  margin-bottom:8px;min-height:50px;
+}
+.action-btn:hover{background:var(--surface-2);box-shadow:var(--shadow-md);border-color:var(--border-strong)}
+.action-btn:active{transform:scale(0.99)}
+.action-btn .ricon{font-size:18px;width:26px;text-align:center;flex-shrink:0}
+.action-btn .rtitle{flex:1}
+.action-btn .rarrow{color:var(--muted);font-size:14px;font-weight:400}
+.action-btn.danger{color:var(--due);border-color:var(--due-border);background:var(--due-bg)}
+.action-btn.danger:hover{background:var(--due-border)}
+
+/* Legacy aliases */
+.report-btn,.data-btn{
+  display:flex;align-items:center;gap:12px;
+  width:100%;padding:13px 14px;border-radius:var(--radius);
+  border:1px solid var(--border);background:var(--surface);
+  font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;
+  color:var(--text);cursor:pointer;text-align:left;
+  transition:all 0.15s;box-shadow:var(--shadow);
+  margin-bottom:8px;min-height:50px;
+}
+.report-btn:hover,.data-btn:hover{background:var(--surface-2);box-shadow:var(--shadow-md);border-color:var(--border-strong)}
+.report-btn .ricon,.data-btn .ricon{font-size:18px;width:26px;text-align:center;flex-shrink:0}
+.report-btn .rtitle,.data-btn .rtitle{flex:1}
+.report-btn .rarrow{color:var(--muted);font-size:14px;font-weight:400}
+.data-btn.danger{color:var(--due);border-color:var(--due-border);background:var(--due-bg)}
+.data-btn.danger:hover{background:var(--due-border)}
+
+/* ── HISTORY ── */
+.hist-list{margin-top:12px;border-top:1px solid var(--border);padding-top:10px}
+.hist-row{
+  display:flex;align-items:center;gap:8px;padding:7px 0;
+  border-bottom:1px solid var(--border);font-size:12px;
+}
+.hist-row:last-child{border-bottom:none}
+.hist-action{
+  font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;
+  background:var(--none-bg);border:1px solid var(--none-border);color:var(--muted);
+  white-space:nowrap;flex-shrink:0;letter-spacing:0.2px;
+}
+.hist-action.reemplazar{background:#EDE9FE;border-color:#C4B5FD;color:#5B21B6}
+.hist-action.lubricar{background:#E0F2FE;border-color:#BAE6FD;color:#075985}
+.hist-action.ajustar{background:var(--warn-bg);border-color:var(--warn-border);color:var(--warn)}
+.hist-action.limpiar{background:var(--ok-bg);border-color:var(--ok-border);color:var(--ok)}
+.hist-action.revisar{background:var(--none-bg);border-color:var(--none-border);color:var(--muted)}
+.hist-date{font-family:'DM Mono',monospace;color:var(--muted);white-space:nowrap;font-size:11px}
+.hist-km{font-family:'DM Mono',monospace;font-weight:600;color:var(--text-2);font-size:11.5px}
+.hist-cost{font-family:'DM Mono',monospace;color:var(--muted);font-size:11px}
+.hist-del{
+  background:none;border:none;color:var(--muted);cursor:pointer;
+  font-size:14px;padding:2px 4px;margin-left:auto;flex-shrink:0;
+  border-radius:4px;transition:background 0.15s,color 0.15s;min-width:24px;min-height:24px;
+  display:flex;align-items:center;justify-content:center;
+}
+.hist-del:hover{color:var(--due);background:var(--due-bg)}
+
+/* ── MODAL ── */
+#report-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:100;overflow:auto;padding:16px}
+.modal-inner{
+  background:var(--surface);max-width:700px;margin:0 auto;
+  border-radius:var(--radius);overflow:hidden;
+  box-shadow:var(--shadow-lg);
+}
+.modal-bar{
+  display:flex;gap:8px;padding:12px 14px;background:var(--surface-2);
+  border-bottom:1px solid var(--border);position:sticky;top:0;
+  align-items:center;
+}
+.modal-bar button{
+  padding:7px 14px;border-radius:var(--radius-sm);border:1px solid var(--border);
+  background:var(--surface);font-family:'DM Sans',sans-serif;font-size:12px;
+  cursor:pointer;font-weight:600;color:var(--text);transition:background 0.15s;
+  min-height:36px;
+}
+.modal-bar button:hover{background:var(--bg)}
+.modal-bar button:last-child{margin-left:auto;background:none;border:none;color:var(--muted)}
+.modal-bar button:last-child:hover{color:var(--text);background:none}
+#report-content{padding:14px 16px 20px;background:var(--surface);color:var(--text)}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<div class="header">
+  <div class="header-icon" id="header-icon" onclick="pickPhoto()" oncontextmenu="removePhoto(event)" title="Click para cambiar foto · Click derecho para eliminar">
+    <span id="header-emoji">🏍</span>
+    <div class="icon-hint">📷</div>
+  </div>
+  <div class="header-info">
+    <h1 id="moto-title" contenteditable="true" spellcheck="false" onblur="saveTitle()">Honda CB 190R</h1>
+    <div class="header-sub" id="header-sub"></div>
+  </div>
+</div>
+
+<nav class="nav">
+  <button class="nb active" onclick="showTab('dashboard')">Resumen</button>
+  <button class="nb" onclick="showTab('items')">Mantenimiento</button>
+  <button class="nb" onclick="showTab('log')">Bitácora</button>
+  <button class="nb" onclick="showTab('report')">Informe</button>
+</nav>
+
+<!-- BANNER DE RECORDATORIOS -->
+<div class="banner" id="reminder-banner">
+  <div class="banner-inner">
+    <div class="banner-icon">📌</div>
+    <div class="banner-content" onclick="editBanner()">
+      <div class="banner-label">Recordatorios</div>
+      <ul class="banner-lines" id="banner-lines"></ul>
+    </div>
+    <button class="banner-edit" onclick="editBanner()" title="Editar recordatorios">✏</button>
+  </div>
+</div>
+
+<div id="tab-dashboard" class="tab active"></div>
+<div id="tab-items" class="tab"></div>
+
+<div id="tab-log" class="tab">
+  <button class="add-btn" onclick="toggleLogForm()">+ Nuevo evento</button>
+
+  <div id="logform" class="form" style="border-radius:var(--radius);border:1px solid var(--border);margin-top:10px;background:var(--surface)">
+    <div class="form-group">
+      <label class="form-label">Fecha</label>
+      <input type="date" id="lf-date">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Descripción</label>
+      <input type="text" id="lf-text" placeholder="¿Qué ocurrió?">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Categoría</label>
+      <select id="lf-cat">
+        <option>Mantenimiento</option>
+        <option>Viaje</option>
+        <option>Incidente</option>
+        <option>Otro</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Kilómetros</label>
+      <input type="number" id="lf-km" placeholder="Km al momento del evento">
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="saveLog()" id="log-save-btn">Guardar</button>
+      <button class="btn" onclick="cancelLogEdit()">Cancelar</button>
+    </div>
+  </div>
+
+  <div id="log-list" style="margin-top:10px"></div>
+</div>
+
+<div id="tab-report" class="tab">
+  <div class="section-label">Generar informe</div>
+  <button class="report-btn" onclick="generateReport('all')">
+    <span class="ricon">📄</span><span class="rtitle">Informe completo</span><span class="rarrow">›</span>
+  </button>
+  <button class="report-btn" onclick="generateReport('summary')">
+    <span class="ricon">📊</span><span class="rtitle">Resumen</span><span class="rarrow">›</span>
+  </button>
+  <button class="report-btn" onclick="generateReport('maintenance')">
+    <span class="ricon">🔧</span><span class="rtitle">Mantenimiento</span><span class="rarrow">›</span>
+  </button>
+  <button class="report-btn" onclick="generateReport('log')">
+    <span class="ricon">📋</span><span class="rtitle">Bitácora</span><span class="rarrow">›</span>
+  </button>
+
+  <div class="section-label" style="margin-top:16px">Datos</div>
+  <button class="data-btn" onclick="exportJSON()">
+    <span class="ricon">⬇</span> Exportar datos
+  </button>
+  <button class="data-btn" onclick="importJSON()">
+    <span class="ricon">⬆</span> Importar datos
+  </button>
+  <button class="data-btn danger" onclick="resetData()">
+    <span class="ricon">🗑</span> Borrar todos los datos
+  </button>
+</div>
+
+</div>
+
+<!-- Report modal -->
+<div id="report-modal">
+  <div class="modal-inner">
+    <div class="modal-bar">
+      <button onclick="printReport()">🖨 Imprimir</button>
+      <button onclick="savePDF()">💾 PDF</button>
+      <button onclick="closeReport()">✕ Cerrar</button>
+    </div>
+    <div id="report-content"></div>
+  </div>
+</div>
+
+<script>
+const DEFAULTS=[
+  {id:'aceite',name:'Cambio de aceite',interval:3000},
+  {id:'cadena',name:'Cadena',interval:15000},
+  {id:'filtro',name:'Filtro de aire',interval:8000}
+];
+
+let D=JSON.parse(localStorage.getItem('moto_pro')||'{}');
+if(!D.records)D.records={};
+if(!D.log)D.log=[];
+if(!D.custom)D.custom=[];
+if(!D.km)D.km=0;
+if(!D.name)D.name='Honda CB 190R';
+document.getElementById('moto-title').textContent=D.name;
+document.title=D.name;
+
+D.log.forEach((e,i)=>{if(!e.id)e.id='lg'+(Date.now()+i);});
+migrateRecords();
+persist();
+
+function saveTitle(){
+  const val=document.getElementById('moto-title').textContent.trim()||'Mi moto';
+  D.name=val;
+  document.title=val;
+  persist();
+}
+
+// ── BANNER ──
+const BANNER_DEFAULT='Presión delantera: 2.0 bar\nPresión trasera: 2.2 bar\nAceite: 10W-40 semisintético\nCadena: lubricar cada 500 km\nFiltro aire: revisar cada 8.000 km';
+function applyBanner(){
+  const txt=D.banner||BANNER_DEFAULT;
+  const lines=txt.split('\n').filter(l=>l.trim()).slice(0,5);
+  const el=document.getElementById('banner-lines');
+  el.innerHTML=lines.map(l=>`<li>${l.trim()}</li>`).join('');
+}
+function editBanner(){
+  const current=D.banner||BANNER_DEFAULT;
+  const val=prompt('Editá los recordatorios (una línea por ítem, máximo 5):',current);
+  if(val===null)return;
+  D.banner=val.trim()||BANNER_DEFAULT;
+  persist();applyBanner();
+}
+applyBanner();
+
+function persist(){localStorage.setItem('moto_pro',JSON.stringify(D))}
+
+function applyPhoto(){
+  const icon=document.getElementById('header-icon');
+  const emoji=document.getElementById('header-emoji');
+  if(D.photo){
+    if(!icon.querySelector('img')){
+      const img=document.createElement('img');
+      icon.insertBefore(img,icon.firstChild);
+    }
+    icon.querySelector('img').src=D.photo;
+    emoji.style.display='none';
+  } else {
+    const img=icon.querySelector('img');
+    if(img)img.remove();
+    emoji.style.display='';
+  }
+}
+
+function pickPhoto(){
+  const input=document.createElement('input');
+  input.type='file';input.accept='image/*';
+  input.onchange=e=>{
+    const file=e.target.files[0];
+    if(!file)return;
+    const reader=new FileReader();
+    reader.onload=ev=>{D.photo=ev.target.result;persist();applyPhoto();};
+    reader.readAsDataURL(file);
+  };
+  input.click();
+}
+
+function removePhoto(e){
+  e.preventDefault();
+  if(!D.photo)return;
+  if(!confirm('¿Eliminar la foto?'))return;
+  delete D.photo;persist();applyPhoto();
+}
+
+applyPhoto();
+
+function allItems(){
+  const hidden=D.hidden||[];
+  return [...DEFAULTS,...D.custom].filter(i=>!hidden.includes(i.id)).map(item=>{
+    const r=D.records[item.id];
+    return{...item,name:r?._name||item.name,interval:r?._interval||item.interval};
+  });
+}
+
+// Migrate old flat record to history format
+function migrateRecords(){
+  Object.keys(D.records).forEach(id=>{
+    const r=D.records[id];
+    if(!r.history){
+      const entry={};
+      if(r.km)entry.km=r.km;
+      if(r.nextKm)entry.nextKm=r.nextKm;
+      if(r.date)entry.date=r.date;
+      if(r.costParts)entry.costParts=r.costParts;
+      if(r.costLabor)entry.costLabor=r.costLabor;
+      entry.actionType=r.actionType||'revisar';
+      const hasData=entry.km||entry.date;
+      r.history=hasData?[entry]:[];
+      delete r.km;delete r.nextKm;delete r.date;delete r.costParts;delete r.costLabor;delete r.actionType;
+    }
+  });
+}
+
+// Returns the latest history entry (for status/badge calculations)
+function rec(id){
+  const r=D.records[id];
+  if(!r||!r.history||!r.history.length)return r||null;
+  const last=r.history[r.history.length-1];
+  return{...r,...last};
+}
+
+// editingRec[itemId] = historyIndex being edited, or null
+const editingRec={};
+
+function renderHistoryHTML(id){
+  const r=D.records[id];
+  const hist=r?.history||[];
+  if(!hist.length)return'';
+  const rows=[...hist].reverse().map((e,ri)=>{
+    const realIdx=hist.length-1-ri;
+    const cost=(e.costParts||0)+(e.costLabor||0);
+    const actionLabel={revisar:'Revisar',limpiar:'Limpiar',ajustar:'Ajustar',lubricar:'Lubricar',reemplazar:'Reemplazar'}[e.actionType||'revisar'];
+    return`<div class="hist-row">
+      <span class="hist-action ${e.actionType||'revisar'}">${actionLabel}</span>
+      <span class="hist-date">${e.date||'—'}</span>
+      <span class="hist-km">${e.km?e.km.toLocaleString('es-AR')+' km':'—'}</span>
+      ${cost?`<span class="hist-cost">$${cost.toLocaleString('es-AR')}</span>`:''}
+      <button class="hist-del" onclick="startEditRec('${id}',${realIdx})" title="Editar">✏</button>
+      <button class="hist-del" onclick="deleteHistEntry('${id}',${realIdx})" title="Eliminar">✕</button>
+    </div>`;
+  }).join('');
+  return`<div class="hist-list">
+    <div class="section-label" style="margin-bottom:6px">Historial</div>
+    ${rows}
+  </div>`;
+}
+
+function startEditRec(id,idx){
+  const e=D.records[id].history[idx];
+  editingRec[id]=idx;
+  document.getElementById('date-'+id).value=e.date||'';
+  document.getElementById('km-'+id).value=e.km||'';
+  document.getElementById('next-'+id).value=e.nextKm||'';
+  document.getElementById('cost-parts-'+id).value=e.costParts||'';
+  document.getElementById('cost-labor-'+id).value=e.costLabor||'';
+  document.getElementById('action-'+id).value=e.actionType||'revisar';
+  document.getElementById('rec-label-'+id).textContent='Editar registro';
+  document.getElementById('rec-save-'+id).textContent='Guardar cambios';
+  document.getElementById('rec-cancel-'+id).style.display='';
+  document.getElementById('f-'+id).scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function getMonths(item){
+  const r=rec(item.id);
+  const months=r?._months||0;
+  if(!months||!r?.date)return null;
+  const done=new Date(r.date);
+  const next=new Date(done);
+  next.setMonth(next.getMonth()+months);
+  const today=new Date();
+  const diffMs=next-today;
+  const diffDays=Math.round(diffMs/(1000*60*60*24));
+  return{next,diffDays};
+}
+
+function getStatus(item){
+  const r=rec(item.id);
+  const kmOk=r&&(r.km||r.nextKm);
+  const dateInfo=getMonths(item);
+
+  // km-based
+  let kmStatus='none';
+  if(kmOk){
+    if(r.nextKm && D.km>=r.nextKm)kmStatus='due';
+    else if(r.nextKm && D.km>=r.nextKm-500)kmStatus='warn';
+    else kmStatus='ok';
+  }
+
+  // date-based
+  let dateStatus='none';
+  if(dateInfo){
+    if(dateInfo.diffDays<=0)dateStatus='due';
+    else if(dateInfo.diffDays<=30)dateStatus='warn';
+    else dateStatus='ok';
+  }
+
+  // worst of the two
+  const rank={none:0,ok:1,warn:2,due:3};
+  const worst=[kmStatus,dateStatus].reduce((a,b)=>rank[a]>=rank[b]?a:b);
+  if(worst==='none'&&!kmOk&&!dateInfo)return'none';
+  if(worst==='none')return'ok';
+  return worst;
+}
+
+function getPct(item){
+  const r=rec(item.id);
+  if(!r||!r.nextKm||!r.km)return 0;
+  return Math.min((D.km-r.km)/(r.nextKm-r.km),1);
+}
+
+function bCls(s){return{ok:'b-ok',warn:'b-warn',due:'b-due',none:'b-none'}[s]}
+function bTxt(s){return{ok:'Al día',warn:'Próximo',due:'Vencido',none:'Sin datos'}[s]}
+
+// ---------- ITEMS ----------
+function renderItems(){
+  const el=document.getElementById('tab-items');
+  el.innerHTML='';
+
+  const hidden=D.hidden||[];
+
+  allItems().forEach(item=>{
+    const r=rec(item.id);
+    const s=getStatus(item);
+    const p=getPct(item);
+    const isCustom=D.custom.some(c=>c.id===item.id);
+
+    const barCls=s==='due'?'bar-due':s==='warn'?'bar-warn':'bar-ok';
+    const dateStr=r?.date?`<span style="margin-left:8px">📅 ${r.date}</span>`:'';
+
+    const dateInfo=getMonths(item);
+    const nextDateStr=dateInfo?` &nbsp;·&nbsp; 📅 próx. ${dateInfo.next.toLocaleDateString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric'})}`:'';
+
+    el.innerHTML+=`
+    <div class="mcard">
+      <div class="mcard-head" onclick="toggleItemForm('${item.id}')">
+        <span class="mcard-name">${item.name}</span>
+        <span class="badge ${bCls(s)}">${bTxt(s)}</span>
+      </div>
+      <div class="mcard-meta">
+        ${r?.actionType?`<span style="text-transform:capitalize;font-weight:600">${r.actionType}</span> · `:''}Último: ${r?.km||'—'} km &nbsp;·&nbsp; Próximo: ${r?.nextKm||'—'} km${dateStr}${nextDateStr}${(r?.costParts||r?.costLabor)?` &nbsp;·&nbsp; 💰 $${((r?.costParts||0)+(r?.costLabor||0)).toLocaleString('es-AR')}`:''}
+      </div>
+      <div class="bar"><div class="bar-fill ${barCls}" style="width:${p*100}%"></div></div>
+
+      <div class="form" id="f-${item.id}">
+        <div class="section-label" id="rec-label-${item.id}">Nuevo registro</div>
+        <div class="form-group">
+          <label class="form-label">Fecha realizado</label>
+          <input type="date" id="date-${item.id}">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Tipo de acción</label>
+          <select id="action-${item.id}">
+            <option value="revisar">Revisar</option>
+            <option value="limpiar">Limpiar</option>
+            <option value="ajustar">Ajustar</option>
+            <option value="lubricar">Lubricar</option>
+            <option value="reemplazar">Reemplazar</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Km actual</label>
+          <input type="number" id="km-${item.id}" placeholder="Km al momento del servicio">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Próximo km (auto si vacío)</label>
+          <input type="number" id="next-${item.id}" placeholder="Se calcula con el intervalo">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Costo repuestos ($)</label>
+          <input type="number" id="cost-parts-${item.id}" placeholder="0">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Costo mano de obra ($)</label>
+          <input type="number" id="cost-labor-${item.id}" placeholder="0">
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-primary" id="rec-save-${item.id}" onclick="saveRec('${item.id}')">Agregar registro</button>
+          <button class="btn" id="rec-cancel-${item.id}" onclick="cancelEditRec('${item.id}')" style="display:none">Cancelar</button>
+        </div>
+
+        ${renderHistoryHTML(item.id)}
+
+        <hr class="form-divider">
+        <div class="section-label">Configuración del ítem</div>
+        <div class="form-group">
+          <label class="form-label">Nombre</label>
+          <input type="text" id="name-${item.id}" value="${item.name}">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Intervalo km</label>
+          <input type="number" id="int-${item.id}" placeholder="Intervalo en km" value="${item.interval||''}">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Intervalo meses</label>
+          <input type="number" id="mon-${item.id}" placeholder="Intervalo en meses" value="${rec(item.id)?._months||''}">
+        </div>
+        <div class="btn-row">
+          <button class="btn" onclick="saveItemMeta('${item.id}')">Actualizar</button>
+          <button class="btn btn-danger" onclick="deleteItem('${item.id}')">🗑 Eliminar ítem</button>
+        </div>
+      </div>
+    </div>`;
+  });
+
+  // Hidden items (show restore option)
+  const hiddenItems=(D.hidden||[]);
+  const allDefs=[...DEFAULTS,...D.custom];
+  const hiddenVisible=allDefs.filter(i=>hiddenItems.includes(i.id));
+  if(hiddenVisible.length){
+    el.innerHTML+=`<div class="section-label" style="margin-top:16px">Ítems ocultos</div>`;
+    hiddenVisible.forEach(item=>{
+      el.innerHTML+=`<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:8px">
+        <span style="font-size:13px;color:var(--muted)">${item.name}</span>
+        <button class="btn" onclick="restoreItem('${item.id}')" style="font-size:11px;padding:4px 10px">Restaurar</button>
+      </div>`;
+    });
+  }
+
+  el.innerHTML+=`<button class="add-btn" onclick="addCustom()">+ Agregar ítem personalizado</button>`;
+}
+
+function toggleItemForm(id){
+  const target=document.getElementById('f-'+id);
+  const isOpen=target.classList.contains('open');
+  document.querySelectorAll('#tab-items .form').forEach(f=>f.classList.remove('open'));
+  if(!isOpen)target.classList.add('open');
+}
+
+function deleteRec(id){
+  if(!D.records[id])return;
+  delete D.records[id];
+  persist();renderItems();renderDashboard();
+}
+
+function deleteHistEntry(id,idx){
+  if(!confirm('¿Eliminar este registro?'))return;
+  if(!D.records[id]||!D.records[id].history)return;
+  D.records[id].history.splice(idx,1);
+  persist();renderItems();renderDashboard();
+}
+
+function deleteItem(id){
+  D.hidden=D.hidden||[];
+  if(!D.hidden.includes(id))D.hidden.push(id);
+  D.custom=D.custom.filter(c=>c.id!==id);
+  delete D.records[id];
+  persist();renderItems();renderDashboard();
+}
+
+function restoreItem(id){
+  D.hidden=(D.hidden||[]).filter(h=>h!==id);
+  persist();renderItems();renderDashboard();
+}
+
+function cancelEditRec(id){
+  editingRec[id]=null;
+  document.getElementById('date-'+id).value='';
+  document.getElementById('km-'+id).value='';
+  document.getElementById('next-'+id).value='';
+  document.getElementById('cost-parts-'+id).value='';
+  document.getElementById('cost-labor-'+id).value='';
+  document.getElementById('action-'+id).value='revisar';
+  document.getElementById('rec-label-'+id).textContent='Nuevo registro';
+  document.getElementById('rec-save-'+id).textContent='Agregar registro';
+  document.getElementById('rec-cancel-'+id).style.display='none';
+}
+
+function saveRec(id){
+  const item=allItems().find(i=>i.id===id);
+  const km=parseInt(document.getElementById('km-'+id).value)||0;
+  let next=parseInt(document.getElementById('next-'+id).value);
+  const date=document.getElementById('date-'+id).value;
+  const actionType=document.getElementById('action-'+id).value;
+  const costParts=parseFloat(document.getElementById('cost-parts-'+id).value)||0;
+  const costLabor=parseFloat(document.getElementById('cost-labor-'+id).value)||0;
+  if(!km&&!date)return;
+  if(!next && item.interval && km)next=km+item.interval;
+  if(!D.records[id])D.records[id]={history:[]};
+  if(!D.records[id].history)D.records[id].history=[];
+  const entry={actionType};
+  if(km)entry.km=km;
+  if(next)entry.nextKm=next;
+  if(date)entry.date=date;
+  if(costParts)entry.costParts=costParts;
+  if(costLabor)entry.costLabor=costLabor;
+  const editIdx=editingRec[id]??null;
+  if(editIdx!==null){
+    D.records[id].history[editIdx]=entry;
+    editingRec[id]=null;
+  } else {
+    D.records[id].history.push(entry);
+  }
+  if(km>D.km)D.km=km;
+  document.getElementById('date-'+id).value='';
+  document.getElementById('km-'+id).value='';
+  document.getElementById('next-'+id).value='';
+  document.getElementById('cost-parts-'+id).value='';
+  document.getElementById('cost-labor-'+id).value='';
+  document.getElementById('action-'+id).value='revisar';
+  document.getElementById('rec-label-'+id).textContent='Nuevo registro';
+  document.getElementById('rec-save-'+id).textContent='Agregar registro';
+  document.getElementById('rec-cancel-'+id).style.display='none';
+  persist();renderItems();renderDashboard();
+}
+
+function saveItemMeta(id){
+  const isCustom=D.custom.some(c=>c.id===id);
+  const name=document.getElementById('name-'+id).value.trim();
+  const interval=parseInt(document.getElementById('int-'+id).value)||0;
+  const months=parseInt(document.getElementById('mon-'+id).value)||0;
+  if(!D.records[id])D.records[id]={};
+  if(isCustom){
+    const c=D.custom.find(c=>c.id===id);
+    if(name)c.name=name;if(interval)c.interval=interval;
+  } else {
+    if(name)D.records[id]._name=name;
+    if(interval)D.records[id]._interval=interval;
+  }
+  if(months)D.records[id]._months=months;
+  else delete D.records[id]._months;
+  persist();renderItems();
+}
+
+function addCustom(){
+  const name=prompt('Nombre del ítem de mantenimiento');
+  if(!name)return;
+  const interval=parseInt(prompt('Intervalo en km (ej: 5000)'))||5000;
+  D.custom.push({id:'c'+Date.now(),name,interval});
+  persist();renderItems();
+}
+
+// ---------- DASHBOARD ----------
+function renderDashboard(){
+  const el=document.getElementById('tab-dashboard');
+  const all=allItems();
+  const due=all.filter(i=>getStatus(i)==='due');
+  const warn=all.filter(i=>getStatus(i)==='warn');
+  const ok=all.filter(i=>getStatus(i)==='ok');
+
+  const totalCost=all.reduce((sum,i)=>{
+    const hist=D.records[i.id]?.history||[];
+    return sum+hist.reduce((s,e)=>(s+(e.costParts||0)+(e.costLabor||0)),0);
+  },0);
+
+  let html=`
+  <div class="dash-km">
+    <div style="flex:1">
+      <div class="dash-km-num">${D.km.toLocaleString('es-AR')}<span class="dash-km-unit"> km</span></div>
+      <div class="dash-km-label">odómetro actual</div>
+    </div>
+    ${totalCost?`<div style="text-align:right"><div style="font-size:18px;font-weight:700;font-family:'DM Mono',monospace;opacity:0.9">$${totalCost.toLocaleString('es-AR')}</div><div class="dash-km-label">total invertido</div></div>`:''}
+  </div>
+  <div class="dash-stats">
+    <div class="stat-card due">
+      <div class="stat-num">${due.length}</div>
+      <div class="stat-lbl">Vencido${due.length!==1?'s':''}</div>
+    </div>
+    <div class="stat-card warn">
+      <div class="stat-num">${warn.length}</div>
+      <div class="stat-lbl">Próximo${warn.length!==1?'s':''}</div>
+    </div>
+    <div class="stat-card ok">
+      <div class="stat-num">${ok.length}</div>
+      <div class="stat-lbl">Al día</div>
+    </div>
+  </div>`;
+
+  const attention=[...due,...warn];
+  if(attention.length){
+    html+=`<div class="section-label">Requieren atención</div>`;
+    attention.forEach(i=>{
+      const s=getStatus(i);
+      const r=rec(i.id);
+      const faltaKm=r?.nextKm?r.nextKm-D.km:null;
+      const dateInfo=getMonths(i);
+      let detail='—';
+      if(faltaKm!==null && dateInfo){
+        const kmTxt=faltaKm<=0?'vencido km':'en '+faltaKm+' km';
+        const dTxt=dateInfo.diffDays<=0?'vencido fecha':'fecha en '+dateInfo.diffDays+'d';
+        detail=kmTxt+' · '+dTxt;
+      } else if(faltaKm!==null){
+        detail=faltaKm<=0?'Vencido':'en '+faltaKm+' km';
+      } else if(dateInfo){
+        detail=dateInfo.diffDays<=0?'Vencido por fecha':'fecha en '+dateInfo.diffDays+' días';
+      }
+      html+=`<div class="dash-item ${s}">
+        <div class="dash-dot"></div>
+        <div class="dash-item-name">${i.name}</div>
+        <div class="dash-item-km">${detail}</div>
+        <span class="badge ${bCls(s)}">${bTxt(s)}</span>
+      </div>`;
+    });
+  }
+
+  if(ok.length){
+    html+=`<div class="section-label" style="margin-top:14px">Al día</div>`;
+    ok.forEach(i=>{
+      const r=rec(i.id);
+      const restante=r?.nextKm?r.nextKm-D.km:null;
+      const dateInfo=getMonths(i);
+      let detail='—';
+      if(restante!==null && dateInfo) detail='en '+restante+' km · fecha en '+dateInfo.diffDays+'d';
+      else if(restante!==null) detail='en '+restante+' km';
+      else if(dateInfo) detail='fecha en '+dateInfo.diffDays+' días';
+      html+=`<div class="dash-item ok">
+        <div class="dash-dot"></div>
+        <div class="dash-item-name">${i.name}</div>
+        <div class="dash-item-km">${detail}</div>
+      </div>`;
+    });
+  }
+
+  if(!all.length){
+    html+=`<div class="dash-all-ok"><div class="icon">🏍️</div><p>Sin ítems de mantenimiento</p></div>`;
+  } else if(!due.length && !warn.length && ok.length){
+    // shown inline above
+  }
+
+  el.innerHTML=html;
+}
+
+// ---------- LOG ----------
+let editingLogId=null;
+
+function toggleLogForm(){
+  const f=document.getElementById('logform');
+  f.classList.toggle('open');
+  if(!f.classList.contains('open'))cancelLogEdit();
+}
+
+function cancelLogEdit(){
+  editingLogId=null;
+  document.getElementById('log-save-btn').textContent='Guardar';
+  document.getElementById('lf-date').value='';
+  document.getElementById('lf-text').value='';
+  document.getElementById('lf-km').value='';
+  document.getElementById('lf-cat').value='Mantenimiento';
+  document.getElementById('logform').classList.remove('open');
+}
+
+function saveLog(){
+  const entry={
+    date:document.getElementById('lf-date').value,
+    text:document.getElementById('lf-text').value,
+    cat:document.getElementById('lf-cat').value,
+    km:parseInt(document.getElementById('lf-km').value)||null
+  };
+  if(!entry.text)return;
+  if(editingLogId!==null){
+    const idx=D.log.findIndex(e=>String(e.id)===String(editingLogId));
+    if(idx!==-1){entry.id=editingLogId;D.log[idx]=entry;}
+  } else {
+    entry.id='lg'+Date.now();D.log.push(entry);
+  }
+  persist();renderLog();cancelLogEdit();
+}
+
+function editLog(id){
+  const e=D.log.find(e=>String(e.id)===String(id));
+  if(!e)return;
+  editingLogId=id;
+  document.getElementById('lf-date').value=e.date||'';
+  document.getElementById('lf-text').value=e.text||'';
+  document.getElementById('lf-cat').value=e.cat||'Mantenimiento';
+  document.getElementById('lf-km').value=e.km||'';
+  document.getElementById('logform').classList.add('open');
+  document.getElementById('log-save-btn').textContent='Actualizar';
+  document.getElementById('logform').scrollIntoView({behavior:'smooth'});
+}
+
+function deleteLog(id){
+  if(!confirm('¿Eliminar este evento?'))return;
+  D.log=D.log.filter(e=>String(e.id)!==String(id));
+  persist();renderLog();
+}
+
+function renderLog(){
+  const el=document.getElementById('log-list');
+  const sorted=[...D.log].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  el.innerHTML='';
+  sorted.forEach(e=>{
+    el.innerHTML+=`
+    <div class="mcard">
+      <div style="padding:13px 14px">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px">
+          <div style="flex:1;min-width:0">
+            <div style="font-size:14px;font-weight:600;margin-bottom:4px;color:var(--text)">${e.text}</div>
+            <div style="font-size:11.5px;color:var(--muted);font-family:'DM Mono',monospace">
+              ${e.date||'—'} · ${e.km?e.km.toLocaleString('es-AR')+' km':'—'}
+            </div>
+          </div>
+          <span class="log-cat-badge">${e.cat}</span>
+        </div>
+        <div class="log-actions">
+          <button class="btn" onclick="editLog('${e.id}')">✏ Editar</button>
+          <button class="btn btn-danger" onclick="deleteLog('${e.id}')">🗑 Eliminar</button>
+        </div>
+      </div>
+    </div>`;
+  });
+  if(!sorted.length){
+    el.innerHTML=`<div style="text-align:center;padding:24px;color:var(--muted);font-size:13px">Sin eventos registrados</div>`;
+  }
+}
+
+// ---------- REPORT ----------
+function generateReport(section='all'){
+  const all=allItems();
+  const today=new Date().toLocaleDateString('es-AR');
+  const name=D.name||'Mi moto';
+  const titles={all:'Informe completo',summary:'Resumen',maintenance:'Mantenimiento',log:'Bitácora'};
+
+  // Use CSS variables via classes instead of hardcoded colors
+  let body=`<h2 style="font-size:18px;margin:0 0 4px;font-family:system-ui;color:var(--text)">${name} — ${titles[section]}</h2>
+  <p style="color:var(--muted);font-size:12px;margin-bottom:20px">Generado el ${today}</p>`;
+
+  if(section==='all'||section==='summary'){
+    const due=all.filter(i=>getStatus(i)==='due');
+    const warn=all.filter(i=>getStatus(i)==='warn');
+    body+=`<h3 style="margin-top:10px;font-size:14px;color:var(--text)">Resumen</h3>
+    <table style='width:100%;border-collapse:collapse;font-size:13px;margin-top:8px'>
+    <tr><td style='padding:6px;border:1px solid var(--border);color:var(--text)'>Km actuales</td><td style='padding:6px;border:1px solid var(--border);color:var(--text)'>${D.km.toLocaleString('es-AR')}</td></tr>
+    <tr><td style='padding:6px;border:1px solid var(--border);color:var(--text)'>Vencidos</td><td style='padding:6px;border:1px solid var(--border);color:var(--due)'>${due.length}</td></tr>
+    <tr><td style='padding:6px;border:1px solid var(--border);color:var(--text)'>Próximos</td><td style='padding:6px;border:1px solid var(--border);color:var(--warn)'>${warn.length}</td></tr>
+    <tr><td style='padding:6px;border:1px solid var(--border);color:var(--text)'>Al día</td><td style='padding:6px;border:1px solid var(--border);color:var(--ok)'>${all.length-due.length-warn.length}</td></tr>
+    </table>`;
+  }
+
+  if(section==='all'||section==='maintenance'){
+    const fmt=v=>v?'$'+v.toLocaleString('es-AR'):'-';
+    const actionLabels={revisar:'Revisar',limpiar:'Limpiar',ajustar:'Ajustar',lubricar:'Lubricar',reemplazar:'Reemplazar'};
+    let totalParts=0,totalLabor=0;
+    body+=`<h3 style="border-bottom:1px solid var(--border);padding-bottom:4px;margin-top:16px;font-size:14px;color:var(--text)">Mantenimiento</h3>
+    <table style="width:100%;border-collapse:collapse;font-size:13px;margin-top:8px">
+    <tr style="background:var(--surface-2)">
+      <th style="padding:6px 8px;border:1px solid var(--border);text-align:left;color:var(--text)">Ítem</th>
+      <th style="padding:6px 8px;border:1px solid var(--border);text-align:left;color:var(--text)">Acción</th>
+      <th style="padding:6px 8px;border:1px solid var(--border);text-align:left;color:var(--text)">Fecha</th>
+      <th style="padding:6px 8px;border:1px solid var(--border);text-align:left;color:var(--text)">Km</th>
+      <th style="padding:6px 8px;border:1px solid var(--border);text-align:left;color:var(--text)">Próximo km</th>
+      <th style="padding:6px 8px;border:1px solid var(--border);text-align:right;color:var(--text)">Repuestos</th>
+      <th style="padding:6px 8px;border:1px solid var(--border);text-align:right;color:var(--text)">Mano de obra</th>
+      <th style="padding:6px 8px;border:1px solid var(--border);text-align:right;color:var(--text)">Total</th>
+    </tr>`;
+    all.forEach(i=>{
+      const hist=[...(D.records[i.id]?.history||[])].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+      if(!hist.length)return;
+      hist.forEach((e,idx)=>{
+        const ep=e.costParts||0,el=e.costLabor||0;
+        totalParts+=ep;totalLabor+=el;
+        const bg=idx%2===0?'background:var(--surface)':'background:var(--surface-2)';
+        body+=`<tr style="${bg}">
+          <td style="padding:6px 8px;border:1px solid var(--border);color:var(--text);font-weight:${idx===0?'600':'400'}">${idx===0?i.name:'↳'}</td>
+          <td style="padding:6px 8px;border:1px solid var(--border);color:var(--text)">${actionLabels[e.actionType||'revisar']||'—'}</td>
+          <td style="padding:6px 8px;border:1px solid var(--border);color:var(--text)">${e.date||'—'}</td>
+          <td style="padding:6px 8px;border:1px solid var(--border);color:var(--text)">${e.km?e.km.toLocaleString('es-AR'):'-'}</td>
+          <td style="padding:6px 8px;border:1px solid var(--border);color:var(--text)">${e.nextKm?e.nextKm.toLocaleString('es-AR'):'-'}</td>
+          <td style="padding:6px 8px;border:1px solid var(--border);text-align:right;color:var(--text)">${fmt(ep)}</td>
+          <td style="padding:6px 8px;border:1px solid var(--border);text-align:right;color:var(--text)">${fmt(el)}</td>
+          <td style="padding:6px 8px;border:1px solid var(--border);text-align:right;font-weight:600;color:var(--text)">${fmt(ep+el)}</td>
+        </tr>`;
+      });
+    });
+    body+=`<tr style="background:var(--surface-2);font-weight:600">
+      <td colspan="5" style="padding:6px 8px;border:1px solid var(--border);color:var(--text)">Total</td>
+      <td style="padding:6px 8px;border:1px solid var(--border);text-align:right;color:var(--text)">${fmt(totalParts)}</td>
+      <td style="padding:6px 8px;border:1px solid var(--border);text-align:right;color:var(--text)">${fmt(totalLabor)}</td>
+      <td style="padding:6px 8px;border:1px solid var(--border);text-align:right;color:var(--text)">${fmt(totalParts+totalLabor)}</td>
+    </tr></table>`;
+  }
+
+  if(section==='all'||section==='log'){
+    const sorted=[...D.log].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+    body+=`<h3 style="border-bottom:1px solid var(--border);padding-bottom:4px;margin-top:16px;font-size:14px;color:var(--text)">Bitácora</h3>`;
+    sorted.forEach(e=>{
+      body+=`<div style="border-bottom:1px solid var(--border);padding:8px 0">
+        <b style="font-size:13px;color:var(--text)">${e.text}</b>
+        <div style="color:var(--muted);font-size:11px;margin-top:2px">${e.date||'—'} · ${e.km?e.km.toLocaleString('es-AR')+' km':'—'} · ${e.cat}</div>
+      </div>`;
+    });
+  }
+
+  document.getElementById('report-content').innerHTML=body;
+  document.getElementById('report-modal').style.display='block';
+}
+
+function closeReport(){document.getElementById('report-modal').style.display='none'}
+
+function printReport(){
+  const content=document.getElementById('report-content').innerHTML;
+  const w=window.open('','_blank','width=800,height=600');
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8">
+<meta name="theme-color" content="#18170F">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Moto Pro">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png"><style>body{font-family:system-ui;padding:20px;max-width:700px;margin:auto}</style></head><body>${content}</body></html>`);
+  w.document.close();w.focus();w.print();
+}
+function savePDF(){printReport()}
+
+// ---------- EXPORT / IMPORT ----------
+function exportJSON(){
+  // Ensure name is current before export
+  D.name=document.getElementById('moto-title').textContent.trim()||D.name||'Mi moto';
+  const blob=new Blob([JSON.stringify(D)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=(D.name||'moto').replace(/\s+/g,'_')+'.json';
+  a.click();
+}
+
+function importJSON(){
+  const input=document.createElement('input');
+  input.type='file';input.accept='.json';
+  input.onchange=e=>{
+    const reader=new FileReader();
+    reader.onload=ev=>{
+      try{
+        D=JSON.parse(ev.target.result);
+        if(!D.records)D.records={};
+        if(!D.log)D.log=[];
+        if(!D.custom)D.custom=[];
+        if(!D.km)D.km=0;
+        D.log.forEach((e,i)=>{if(!e.id)e.id='lg'+(Date.now()+i);});
+        migrateRecords();
+        persist();
+        // Restore title from imported data
+        const title=D.name||'Mi moto';
+        document.getElementById('moto-title').textContent=title;
+        document.title=title;
+        renderDashboard();renderItems();renderLog();
+        alert('Datos importados correctamente');
+      }catch(err){alert('Error al importar: archivo inválido')}
+    };
+    reader.readAsText(e.target.files[0]);
+  };
+  input.click();
+}
+
+function resetData(){
+  const ok=prompt('Escribí BORRAR para confirmar. Se eliminarán todos los datos.');
+  if(ok!=='BORRAR')return;
+  localStorage.removeItem('moto_pro');location.reload();
+}
+
+function showTab(tab){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  const tabs=['dashboard','items','log','report'];
+  document.querySelectorAll('.nb')[tabs.indexOf(tab)].classList.add('active');
+  if(tab==='items')renderItems();
+  if(tab==='dashboard')renderDashboard();
+  if(tab==='log')renderLog();
+}
+
+renderDashboard();
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{});}
+</script>
+</body>
+</html>
