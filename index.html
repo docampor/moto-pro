@@ -665,6 +665,9 @@ function rec(id){
   return{...r,...last};
 }
 
+// editingRec[itemId] = historyIndex being edited, or null
+const editingRec={};
+
 function renderHistoryHTML(id){
   const r=D.records[id];
   const hist=r?.history||[];
@@ -678,6 +681,7 @@ function renderHistoryHTML(id){
       <span class="hist-date">${e.date||'—'}</span>
       <span class="hist-km">${e.km?e.km.toLocaleString('es-AR')+' km':'—'}</span>
       ${cost?`<span class="hist-cost">$${cost.toLocaleString('es-AR')}</span>`:''}
+      <button class="hist-del" onclick="startEditRec('${id}',${realIdx})" title="Editar">✏</button>
       <button class="hist-del" onclick="deleteHistEntry('${id}',${realIdx})" title="Eliminar">✕</button>
     </div>`;
   }).join('');
@@ -685,6 +689,21 @@ function renderHistoryHTML(id){
     <div class="section-label" style="margin-bottom:6px">Historial</div>
     ${rows}
   </div>`;
+}
+
+function startEditRec(id,idx){
+  const e=D.records[id].history[idx];
+  editingRec[id]=idx;
+  document.getElementById('date-'+id).value=e.date||'';
+  document.getElementById('km-'+id).value=e.km||'';
+  document.getElementById('next-'+id).value=e.nextKm||'';
+  document.getElementById('cost-parts-'+id).value=e.costParts||'';
+  document.getElementById('cost-labor-'+id).value=e.costLabor||'';
+  document.getElementById('action-'+id).value=e.actionType||'revisar';
+  document.getElementById('rec-label-'+id).textContent='Editar registro';
+  document.getElementById('rec-save-'+id).textContent='Guardar cambios';
+  document.getElementById('rec-cancel-'+id).style.display='';
+  document.getElementById('f-'+id).scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
 function getMonths(item){
@@ -769,10 +788,10 @@ function renderItems(){
       <div class="bar"><div class="bar-fill ${barCls}" style="width:${p*100}%"></div></div>
 
       <div class="form" id="f-${item.id}">
-        <div class="section-label">Registrar mantenimiento</div>
+        <div class="section-label" id="rec-label-${item.id}">Nuevo registro</div>
         <div class="form-group">
           <label class="form-label">Fecha realizado</label>
-          <input type="date" id="date-${item.id}" value="${r?.date||''}">
+          <input type="date" id="date-${item.id}">
         </div>
         <div class="form-group">
           <label class="form-label">Tipo de acción</label>
@@ -786,22 +805,23 @@ function renderItems(){
         </div>
         <div class="form-group">
           <label class="form-label">Km actual</label>
-          <input type="number" id="km-${item.id}" placeholder="Km al momento del servicio" value="${r?.km||''}">
+          <input type="number" id="km-${item.id}" placeholder="Km al momento del servicio">
         </div>
         <div class="form-group">
           <label class="form-label">Próximo km (auto si vacío)</label>
-          <input type="number" id="next-${item.id}" placeholder="Se calcula con el intervalo" value="${r?.nextKm||''}">
+          <input type="number" id="next-${item.id}" placeholder="Se calcula con el intervalo">
         </div>
         <div class="form-group">
           <label class="form-label">Costo repuestos ($)</label>
-          <input type="number" id="cost-parts-${item.id}" placeholder="0" value="${r?.costParts||''}">
+          <input type="number" id="cost-parts-${item.id}" placeholder="0">
         </div>
         <div class="form-group">
           <label class="form-label">Costo mano de obra ($)</label>
-          <input type="number" id="cost-labor-${item.id}" placeholder="0" value="${r?.costLabor||''}">
+          <input type="number" id="cost-labor-${item.id}" placeholder="0">
         </div>
         <div class="btn-row">
-          <button class="btn btn-primary" onclick="saveRec('${item.id}')">Guardar registro</button>
+          <button class="btn btn-primary" id="rec-save-${item.id}" onclick="saveRec('${item.id}')">Agregar registro</button>
+          <button class="btn" id="rec-cancel-${item.id}" onclick="cancelEditRec('${item.id}')" style="display:none">Cancelar</button>
         </div>
 
         ${renderHistoryHTML(item.id)}
@@ -878,6 +898,19 @@ function restoreItem(id){
   persist();renderItems();renderDashboard();
 }
 
+function cancelEditRec(id){
+  editingRec[id]=null;
+  document.getElementById('date-'+id).value='';
+  document.getElementById('km-'+id).value='';
+  document.getElementById('next-'+id).value='';
+  document.getElementById('cost-parts-'+id).value='';
+  document.getElementById('cost-labor-'+id).value='';
+  document.getElementById('action-'+id).value='revisar';
+  document.getElementById('rec-label-'+id).textContent='Nuevo registro';
+  document.getElementById('rec-save-'+id).textContent='Agregar registro';
+  document.getElementById('rec-cancel-'+id).style.display='none';
+}
+
 function saveRec(id){
   const item=allItems().find(i=>i.id===id);
   const km=parseInt(document.getElementById('km-'+id).value)||0;
@@ -896,15 +929,23 @@ function saveRec(id){
   if(date)entry.date=date;
   if(costParts)entry.costParts=costParts;
   if(costLabor)entry.costLabor=costLabor;
-  D.records[id].history.push(entry);
+  const editIdx=editingRec[id]??null;
+  if(editIdx!==null){
+    D.records[id].history[editIdx]=entry;
+    editingRec[id]=null;
+  } else {
+    D.records[id].history.push(entry);
+  }
   if(km>D.km)D.km=km;
-  // Clear form fields
   document.getElementById('date-'+id).value='';
   document.getElementById('km-'+id).value='';
   document.getElementById('next-'+id).value='';
   document.getElementById('cost-parts-'+id).value='';
   document.getElementById('cost-labor-'+id).value='';
   document.getElementById('action-'+id).value='revisar';
+  document.getElementById('rec-label-'+id).textContent='Nuevo registro';
+  document.getElementById('rec-save-'+id).textContent='Agregar registro';
+  document.getElementById('rec-cancel-'+id).style.display='none';
   persist();renderItems();renderDashboard();
 }
 
@@ -942,7 +983,10 @@ function renderDashboard(){
   const warn=all.filter(i=>getStatus(i)==='warn');
   const ok=all.filter(i=>getStatus(i)==='ok');
 
-  const totalCost=all.reduce((sum,i)=>{const r=rec(i.id);return sum+(r?.costParts||0)+(r?.costLabor||0);},0);
+  const totalCost=all.reduce((sum,i)=>{
+    const hist=D.records[i.id]?.history||[];
+    return sum+hist.reduce((s,e)=>(s+(e.costParts||0)+(e.costLabor||0)),0);
+  },0);
 
   let html=`
   <div class="dash-km">
@@ -1129,69 +1173,46 @@ function generateReport(section='all'){
   }
 
   if(section==='all'||section==='maintenance'){
+    const fmt=v=>v?'$'+v.toLocaleString('es-AR'):'-';
+    const actionLabels={revisar:'Revisar',limpiar:'Limpiar',ajustar:'Ajustar',lubricar:'Lubricar',reemplazar:'Reemplazar'};
+    let totalParts=0,totalLabor=0;
     body+=`<h3 style="border-bottom:1px solid var(--border);padding-bottom:4px;margin-top:16px;font-size:14px;color:var(--text)">Mantenimiento</h3>
     <table style="width:100%;border-collapse:collapse;font-size:13px;margin-top:8px">
     <tr style="background:var(--surface-2)">
       <th style="padding:6px 8px;border:1px solid var(--border);text-align:left;color:var(--text)">Ítem</th>
-      <th style="padding:6px 8px;border:1px solid var(--border);text-align:left;color:var(--text)">Estado</th>
       <th style="padding:6px 8px;border:1px solid var(--border);text-align:left;color:var(--text)">Acción</th>
       <th style="padding:6px 8px;border:1px solid var(--border);text-align:left;color:var(--text)">Fecha</th>
-      <th style="padding:6px 8px;border:1px solid var(--border);text-align:left;color:var(--text)">Último km</th>
+      <th style="padding:6px 8px;border:1px solid var(--border);text-align:left;color:var(--text)">Km</th>
       <th style="padding:6px 8px;border:1px solid var(--border);text-align:left;color:var(--text)">Próximo km</th>
       <th style="padding:6px 8px;border:1px solid var(--border);text-align:right;color:var(--text)">Repuestos</th>
       <th style="padding:6px 8px;border:1px solid var(--border);text-align:right;color:var(--text)">Mano de obra</th>
       <th style="padding:6px 8px;border:1px solid var(--border);text-align:right;color:var(--text)">Total</th>
     </tr>`;
-    let totalParts=0,totalLabor=0;
     all.forEach(i=>{
-      const r=rec(i.id);
-      const rawR=D.records[i.id];
-      const s=getStatus(i);
-      const bgStyle={ok:'background:var(--ok-bg)',warn:'background:var(--warn-bg)',due:'background:var(--due-bg)',none:'background:var(--surface)'}[s];
-      const p=r?.costParts||0,l=r?.costLabor||0;
-      totalParts+=p;totalLabor+=l;
-      const fmt=v=>v?'$'+v.toLocaleString('es-AR'):'-';
-      const actionLabels={revisar:'Revisar',limpiar:'Limpiar',ajustar:'Ajustar',lubricar:'Lubricar',reemplazar:'Reemplazar'};
-      const actionTxt=actionLabels[r?.actionType||'revisar']||'—';
-      body+=`<tr style="${bgStyle}">
-        <td style="padding:6px 8px;border:1px solid var(--border);color:var(--text)">${i.name}</td>
-        <td style="padding:6px 8px;border:1px solid var(--border);color:var(--text)">${bTxt(s)}</td>
-        <td style="padding:6px 8px;border:1px solid var(--border);color:var(--text)">${actionTxt}</td>
-        <td style="padding:6px 8px;border:1px solid var(--border);color:var(--text)">${r?.date||'—'}</td>
-        <td style="padding:6px 8px;border:1px solid var(--border);color:var(--text)">${r?.km||'—'}</td>
-        <td style="padding:6px 8px;border:1px solid var(--border);color:var(--text)">${r?.nextKm||'—'}</td>
-        <td style="padding:6px 8px;border:1px solid var(--border);text-align:right;color:var(--text)">${fmt(p)}</td>
-        <td style="padding:6px 8px;border:1px solid var(--border);text-align:right;color:var(--text)">${fmt(l)}</td>
-        <td style="padding:6px 8px;border:1px solid var(--border);text-align:right;font-weight:600;color:var(--text)">${fmt(p+l)}</td>
-      </tr>`;
-      // History rows
-      const hist=rawR?.history||[];
-      if(hist.length>1){
-        const prev=[...hist].slice(0,-1).reverse();
-        prev.forEach(e=>{
-          const ep=(e.costParts||0),el=(e.costLabor||0);
-          body+=`<tr style="background:var(--surface-2)">
-            <td style="padding:3px 8px 3px 20px;border:1px solid var(--border);color:var(--muted);font-size:11px">↳ historial</td>
-            <td style="padding:3px 8px;border:1px solid var(--border)"></td>
-            <td style="padding:3px 8px;border:1px solid var(--border);color:var(--muted);font-size:11px">${actionLabels[e.actionType||'revisar']||'—'}</td>
-            <td style="padding:3px 8px;border:1px solid var(--border);color:var(--muted);font-size:11px">${e.date||'—'}</td>
-            <td style="padding:3px 8px;border:1px solid var(--border);color:var(--muted);font-size:11px">${e.km||'—'}</td>
-            <td style="padding:3px 8px;border:1px solid var(--border);color:var(--muted);font-size:11px">${e.nextKm||'—'}</td>
-            <td style="padding:3px 8px;border:1px solid var(--border);text-align:right;color:var(--muted);font-size:11px">${fmt(ep)}</td>
-            <td style="padding:3px 8px;border:1px solid var(--border);text-align:right;color:var(--muted);font-size:11px">${fmt(el)}</td>
-            <td style="padding:3px 8px;border:1px solid var(--border);text-align:right;color:var(--muted);font-size:11px">${fmt(ep+el)}</td>
-          </tr>`;
-        });
-      }
+      const hist=[...(D.records[i.id]?.history||[])].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+      if(!hist.length)return;
+      hist.forEach((e,idx)=>{
+        const ep=e.costParts||0,el=e.costLabor||0;
+        totalParts+=ep;totalLabor+=el;
+        const bg=idx%2===0?'background:var(--surface)':'background:var(--surface-2)';
+        body+=`<tr style="${bg}">
+          <td style="padding:6px 8px;border:1px solid var(--border);color:var(--text);font-weight:${idx===0?'600':'400'}">${idx===0?i.name:'↳'}</td>
+          <td style="padding:6px 8px;border:1px solid var(--border);color:var(--text)">${actionLabels[e.actionType||'revisar']||'—'}</td>
+          <td style="padding:6px 8px;border:1px solid var(--border);color:var(--text)">${e.date||'—'}</td>
+          <td style="padding:6px 8px;border:1px solid var(--border);color:var(--text)">${e.km?e.km.toLocaleString('es-AR'):'-'}</td>
+          <td style="padding:6px 8px;border:1px solid var(--border);color:var(--text)">${e.nextKm?e.nextKm.toLocaleString('es-AR'):'-'}</td>
+          <td style="padding:6px 8px;border:1px solid var(--border);text-align:right;color:var(--text)">${fmt(ep)}</td>
+          <td style="padding:6px 8px;border:1px solid var(--border);text-align:right;color:var(--text)">${fmt(el)}</td>
+          <td style="padding:6px 8px;border:1px solid var(--border);text-align:right;font-weight:600;color:var(--text)">${fmt(ep+el)}</td>
+        </tr>`;
+      });
     });
-    const fmt=v=>v?'$'+v.toLocaleString('es-AR'):'-';
     body+=`<tr style="background:var(--surface-2);font-weight:600">
-      <td colspan="6" style="padding:6px 8px;border:1px solid var(--border);color:var(--text)">Total</td>
+      <td colspan="5" style="padding:6px 8px;border:1px solid var(--border);color:var(--text)">Total</td>
       <td style="padding:6px 8px;border:1px solid var(--border);text-align:right;color:var(--text)">${fmt(totalParts)}</td>
       <td style="padding:6px 8px;border:1px solid var(--border);text-align:right;color:var(--text)">${fmt(totalLabor)}</td>
       <td style="padding:6px 8px;border:1px solid var(--border);text-align:right;color:var(--text)">${fmt(totalParts+totalLabor)}</td>
-    </tr>`;
-    body+=`</table>`;
+    </tr></table>`;
   }
 
   if(section==='all'||section==='log'){
