@@ -430,6 +430,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 .modal-bar button:hover{background:var(--bg)}
 .modal-bar button:last-child{margin-left:auto;background:none;border:none;color:var(--muted)}
 .modal-bar button:last-child:hover{color:var(--text);background:none}
+#report-content{padding:14px 16px 20px;background:var(--surface);color:var(--text)}
 </style>
 </head>
 
@@ -540,7 +541,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       <button onclick="savePDF()">💾 PDF</button>
       <button onclick="closeReport()">✕ Cerrar</button>
     </div>
-    <div id="report-content" style="padding:24px;font-family:system-ui;font-size:14px"></div>
+    <div id="report-content"></div>
   </div>
 </div>
 
@@ -1111,56 +1112,57 @@ function generateReport(section='all'){
   const name=D.name||'Mi moto';
   const titles={all:'Informe completo',summary:'Resumen',maintenance:'Mantenimiento',log:'Bitácora'};
 
-  let body=`<h2 style="font-size:18px;margin:0 0 4px;font-family:system-ui">${name} — ${titles[section]}</h2>
-  <p style="color:#888;font-size:12px;margin-bottom:20px">Generado el ${today}</p>`;
+  // Use CSS variables via classes instead of hardcoded colors
+  let body=`<h2 style="font-size:18px;margin:0 0 4px;font-family:system-ui;color:var(--text)">${name} — ${titles[section]}</h2>
+  <p style="color:var(--muted);font-size:12px;margin-bottom:20px">Generado el ${today}</p>`;
 
   if(section==='all'||section==='summary'){
     const due=all.filter(i=>getStatus(i)==='due');
     const warn=all.filter(i=>getStatus(i)==='warn');
-    body+=`<h3 style="margin-top:10px;font-size:14px">Resumen</h3>
+    body+=`<h3 style="margin-top:10px;font-size:14px;color:var(--text)">Resumen</h3>
     <table style='width:100%;border-collapse:collapse;font-size:13px;margin-top:8px'>
-    <tr><td style='padding:6px;border:1px solid #ddd'>Km actuales</td><td style='padding:6px;border:1px solid #ddd'>${D.km.toLocaleString('es-AR')}</td></tr>
-    <tr><td style='padding:6px;border:1px solid #ddd'>Vencidos</td><td style='padding:6px;border:1px solid #ddd;color:#B91C1C'>${due.length}</td></tr>
-    <tr><td style='padding:6px;border:1px solid #ddd'>Próximos</td><td style='padding:6px;border:1px solid #ddd;color:#9B6800'>${warn.length}</td></tr>
-    <tr><td style='padding:6px;border:1px solid #ddd'>Al día</td><td style='padding:6px;border:1px solid #ddd;color:#2D7A3A'>${all.length-due.length-warn.length}</td></tr>
+    <tr><td style='padding:6px;border:1px solid var(--border);color:var(--text)'>Km actuales</td><td style='padding:6px;border:1px solid var(--border);color:var(--text)'>${D.km.toLocaleString('es-AR')}</td></tr>
+    <tr><td style='padding:6px;border:1px solid var(--border);color:var(--text)'>Vencidos</td><td style='padding:6px;border:1px solid var(--border);color:var(--due)'>${due.length}</td></tr>
+    <tr><td style='padding:6px;border:1px solid var(--border);color:var(--text)'>Próximos</td><td style='padding:6px;border:1px solid var(--border);color:var(--warn)'>${warn.length}</td></tr>
+    <tr><td style='padding:6px;border:1px solid var(--border);color:var(--text)'>Al día</td><td style='padding:6px;border:1px solid var(--border);color:var(--ok)'>${all.length-due.length-warn.length}</td></tr>
     </table>`;
   }
 
   if(section==='all'||section==='maintenance'){
-    body+=`<h3 style="border-bottom:1px solid #eee;padding-bottom:4px;margin-top:16px;font-size:14px">Mantenimiento</h3>
+    body+=`<h3 style="border-bottom:1px solid var(--border);padding-bottom:4px;margin-top:16px;font-size:14px;color:var(--text)">Mantenimiento</h3>
     <table style="width:100%;border-collapse:collapse;font-size:13px;margin-top:8px">
-    <tr style="background:#f5f5f5">
-      <th style="padding:6px 8px;border:1px solid #ddd;text-align:left">Ítem</th>
-      <th style="padding:6px 8px;border:1px solid #ddd;text-align:left">Estado</th>
-      <th style="padding:6px 8px;border:1px solid #ddd;text-align:left">Acción</th>
-      <th style="padding:6px 8px;border:1px solid #ddd;text-align:left">Fecha</th>
-      <th style="padding:6px 8px;border:1px solid #ddd;text-align:left">Último km</th>
-      <th style="padding:6px 8px;border:1px solid #ddd;text-align:left">Próximo km</th>
-      <th style="padding:6px 8px;border:1px solid #ddd;text-align:right">Repuestos</th>
-      <th style="padding:6px 8px;border:1px solid #ddd;text-align:right">Mano de obra</th>
-      <th style="padding:6px 8px;border:1px solid #ddd;text-align:right">Total</th>
+    <tr style="background:var(--surface-2)">
+      <th style="padding:6px 8px;border:1px solid var(--border);text-align:left;color:var(--text)">Ítem</th>
+      <th style="padding:6px 8px;border:1px solid var(--border);text-align:left;color:var(--text)">Estado</th>
+      <th style="padding:6px 8px;border:1px solid var(--border);text-align:left;color:var(--text)">Acción</th>
+      <th style="padding:6px 8px;border:1px solid var(--border);text-align:left;color:var(--text)">Fecha</th>
+      <th style="padding:6px 8px;border:1px solid var(--border);text-align:left;color:var(--text)">Último km</th>
+      <th style="padding:6px 8px;border:1px solid var(--border);text-align:left;color:var(--text)">Próximo km</th>
+      <th style="padding:6px 8px;border:1px solid var(--border);text-align:right;color:var(--text)">Repuestos</th>
+      <th style="padding:6px 8px;border:1px solid var(--border);text-align:right;color:var(--text)">Mano de obra</th>
+      <th style="padding:6px 8px;border:1px solid var(--border);text-align:right;color:var(--text)">Total</th>
     </tr>`;
     let totalParts=0,totalLabor=0;
     all.forEach(i=>{
       const r=rec(i.id);
       const rawR=D.records[i.id];
       const s=getStatus(i);
-      const bg={ok:'#E8F5EA',warn:'#FEF3DC',due:'#FEE8E8',none:'#F0EEE9'}[s];
+      const bgStyle={ok:'background:var(--ok-bg)',warn:'background:var(--warn-bg)',due:'background:var(--due-bg)',none:'background:var(--surface)'}[s];
       const p=r?.costParts||0,l=r?.costLabor||0;
       totalParts+=p;totalLabor+=l;
       const fmt=v=>v?'$'+v.toLocaleString('es-AR'):'-';
       const actionLabels={revisar:'Revisar',limpiar:'Limpiar',ajustar:'Ajustar',lubricar:'Lubricar',reemplazar:'Reemplazar'};
       const actionTxt=actionLabels[r?.actionType||'revisar']||'—';
-      body+=`<tr style="background:${bg}">
-        <td style="padding:6px 8px;border:1px solid #ddd">${i.name}</td>
-        <td style="padding:6px 8px;border:1px solid #ddd">${bTxt(s)}</td>
-        <td style="padding:6px 8px;border:1px solid #ddd">${actionTxt}</td>
-        <td style="padding:6px 8px;border:1px solid #ddd">${r?.date||'—'}</td>
-        <td style="padding:6px 8px;border:1px solid #ddd">${r?.km||'—'}</td>
-        <td style="padding:6px 8px;border:1px solid #ddd">${r?.nextKm||'—'}</td>
-        <td style="padding:6px 8px;border:1px solid #ddd;text-align:right">${fmt(p)}</td>
-        <td style="padding:6px 8px;border:1px solid #ddd;text-align:right">${fmt(l)}</td>
-        <td style="padding:6px 8px;border:1px solid #ddd;text-align:right;font-weight:600">${fmt(p+l)}</td>
+      body+=`<tr style="${bgStyle}">
+        <td style="padding:6px 8px;border:1px solid var(--border);color:var(--text)">${i.name}</td>
+        <td style="padding:6px 8px;border:1px solid var(--border);color:var(--text)">${bTxt(s)}</td>
+        <td style="padding:6px 8px;border:1px solid var(--border);color:var(--text)">${actionTxt}</td>
+        <td style="padding:6px 8px;border:1px solid var(--border);color:var(--text)">${r?.date||'—'}</td>
+        <td style="padding:6px 8px;border:1px solid var(--border);color:var(--text)">${r?.km||'—'}</td>
+        <td style="padding:6px 8px;border:1px solid var(--border);color:var(--text)">${r?.nextKm||'—'}</td>
+        <td style="padding:6px 8px;border:1px solid var(--border);text-align:right;color:var(--text)">${fmt(p)}</td>
+        <td style="padding:6px 8px;border:1px solid var(--border);text-align:right;color:var(--text)">${fmt(l)}</td>
+        <td style="padding:6px 8px;border:1px solid var(--border);text-align:right;font-weight:600;color:var(--text)">${fmt(p+l)}</td>
       </tr>`;
       // History rows
       const hist=rawR?.history||[];
@@ -1168,37 +1170,37 @@ function generateReport(section='all'){
         const prev=[...hist].slice(0,-1).reverse();
         prev.forEach(e=>{
           const ep=(e.costParts||0),el=(e.costLabor||0);
-          body+=`<tr style="background:#fafafa;color:#888;font-size:11px">
-            <td style="padding:3px 8px 3px 20px;border:1px solid #eee">↳ historial</td>
-            <td style="padding:3px 8px;border:1px solid #eee"></td>
-            <td style="padding:3px 8px;border:1px solid #eee">${actionLabels[e.actionType||'revisar']||'—'}</td>
-            <td style="padding:3px 8px;border:1px solid #eee">${e.date||'—'}</td>
-            <td style="padding:3px 8px;border:1px solid #eee">${e.km||'—'}</td>
-            <td style="padding:3px 8px;border:1px solid #eee">${e.nextKm||'—'}</td>
-            <td style="padding:3px 8px;border:1px solid #eee;text-align:right">${fmt(ep)}</td>
-            <td style="padding:3px 8px;border:1px solid #eee;text-align:right">${fmt(el)}</td>
-            <td style="padding:3px 8px;border:1px solid #eee;text-align:right">${fmt(ep+el)}</td>
+          body+=`<tr style="background:var(--surface-2)">
+            <td style="padding:3px 8px 3px 20px;border:1px solid var(--border);color:var(--muted);font-size:11px">↳ historial</td>
+            <td style="padding:3px 8px;border:1px solid var(--border)"></td>
+            <td style="padding:3px 8px;border:1px solid var(--border);color:var(--muted);font-size:11px">${actionLabels[e.actionType||'revisar']||'—'}</td>
+            <td style="padding:3px 8px;border:1px solid var(--border);color:var(--muted);font-size:11px">${e.date||'—'}</td>
+            <td style="padding:3px 8px;border:1px solid var(--border);color:var(--muted);font-size:11px">${e.km||'—'}</td>
+            <td style="padding:3px 8px;border:1px solid var(--border);color:var(--muted);font-size:11px">${e.nextKm||'—'}</td>
+            <td style="padding:3px 8px;border:1px solid var(--border);text-align:right;color:var(--muted);font-size:11px">${fmt(ep)}</td>
+            <td style="padding:3px 8px;border:1px solid var(--border);text-align:right;color:var(--muted);font-size:11px">${fmt(el)}</td>
+            <td style="padding:3px 8px;border:1px solid var(--border);text-align:right;color:var(--muted);font-size:11px">${fmt(ep+el)}</td>
           </tr>`;
         });
       }
     });
     const fmt=v=>v?'$'+v.toLocaleString('es-AR'):'-';
-    body+=`<tr style="background:#f5f5f5;font-weight:600">
-      <td colspan="6" style="padding:6px 8px;border:1px solid #ddd">Total</td>
-      <td style="padding:6px 8px;border:1px solid #ddd;text-align:right">${fmt(totalParts)}</td>
-      <td style="padding:6px 8px;border:1px solid #ddd;text-align:right">${fmt(totalLabor)}</td>
-      <td style="padding:6px 8px;border:1px solid #ddd;text-align:right">${fmt(totalParts+totalLabor)}</td>
+    body+=`<tr style="background:var(--surface-2);font-weight:600">
+      <td colspan="6" style="padding:6px 8px;border:1px solid var(--border);color:var(--text)">Total</td>
+      <td style="padding:6px 8px;border:1px solid var(--border);text-align:right;color:var(--text)">${fmt(totalParts)}</td>
+      <td style="padding:6px 8px;border:1px solid var(--border);text-align:right;color:var(--text)">${fmt(totalLabor)}</td>
+      <td style="padding:6px 8px;border:1px solid var(--border);text-align:right;color:var(--text)">${fmt(totalParts+totalLabor)}</td>
     </tr>`;
     body+=`</table>`;
   }
 
   if(section==='all'||section==='log'){
     const sorted=[...D.log].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
-    body+=`<h3 style="border-bottom:1px solid #eee;padding-bottom:4px;margin-top:16px;font-size:14px">Bitácora</h3>`;
+    body+=`<h3 style="border-bottom:1px solid var(--border);padding-bottom:4px;margin-top:16px;font-size:14px;color:var(--text)">Bitácora</h3>`;
     sorted.forEach(e=>{
-      body+=`<div style="border-bottom:1px solid #eee;padding:8px 0">
-        <b style="font-size:13px">${e.text}</b>
-        <div style="color:#666;font-size:11px;margin-top:2px">${e.date||'—'} · ${e.km?e.km.toLocaleString('es-AR')+' km':'—'} · ${e.cat}</div>
+      body+=`<div style="border-bottom:1px solid var(--border);padding:8px 0">
+        <b style="font-size:13px;color:var(--text)">${e.text}</b>
+        <div style="color:var(--muted);font-size:11px;margin-top:2px">${e.date||'—'} · ${e.km?e.km.toLocaleString('es-AR')+' km':'—'} · ${e.cat}</div>
       </div>`;
     });
   }
