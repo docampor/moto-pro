@@ -1,4 +1,4 @@
-const CACHE = 'motopro-v3';
+const CACHE = 'motopro-v4';
 const ASSETS = [
   './index.html',
   './manifest.json',
